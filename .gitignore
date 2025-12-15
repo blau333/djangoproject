@@ -1,12 +1,8 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+# pre-commit
+.pre-commit-config.yaml
+.ruff_cache/
 
-# Virtual environments
-.venv
-.vscode
-.idea
+# Python / tools
+.python-version
+uv.lock
+CACHEDIR.TAG
