@@ -25,13 +25,13 @@ class Command(BaseCommand):
             )
             return
 
-        confirm = input("Вы уверены, что хотите удалить пост? (yes/no): ")
+        confirm = input("Надо ли удалять пост (Да или Нет) ")
 
-        if confirm.lower() != 'yes':
-            self.stdout.write("Удаление отменено")
+        if confirm.lower() != 'Да':
+            self.stdout.write("Удаление отменено.")
             return
 
         posts.first().delete()
         self.stdout.write(
-            self.style.SUCCESS("Пост успешно удалён")
+            self.style.SUCCESS("Пост удалён.")
         )
