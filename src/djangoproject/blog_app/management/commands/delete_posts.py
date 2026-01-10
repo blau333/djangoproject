@@ -1,31 +1,37 @@
-from django.contrib.auth.models import User
-from django.core.management import BaseCommand, CommandError
-from django.utils.text import slugify
-import time
-from django_project.blog_app.models import Post
+from django.core.management.base import BaseCommand
+from djangoproject.blog_app.models import Post
+
+
 class Command(BaseCommand):
-    help = 'Создаёт новую статью'
+    help = 'Удаляет пост по заголовку'
+
     def add_arguments(self, parser):
-        parser.add_argument('title', type=str, help='Название статьи', nargs='?')
-        parser.add_argument('content', type=str, help='Содержание поста', nargs='?')
+        parser.add_argument('title', type=str, help='Заголовок поста')
+
     def handle(self, *args, **options):
-        title = options['title'] or input("Введите название статьи: ")
-        content = options['content'] or input("Введите текст статьи: ")
-        author = User.objects.first()
-        if not author:
-            raise CommandError("Сначала создайте пользователя!")
-        slug = slugify(title)
-        if not slug:
-            slug = f"post-{int(time.time())}"
-        if Post.objects.filter(slug=slug).exists():
-            slug = f"{slug}-{int(time.time())}"
-        try:
-            post = Post.objects.create(
-                title=title,
-                content=content,
-                author=author,
-                slug=slug
+        title = options['title']
+
+        posts = Post.objects.filter(title=title)
+
+        if not posts.exists():
+            self.stdout.write(
+                self.style.ERROR("Пост с таким заголовком не найден")
             )
-            self.stdout.write(self.style.SUCCESS(f'Пост "{post.title}" успешно создан'))
-        except Exception as e:
-            raise CommandError(f'Ошибка при создании поста: {e}')
+            return
+
+        if posts.count() > 1:
+            self.stdout.write(
+                self.style.WARNING("Найдено несколько постов, удаление отменено")
+            )
+            return
+
+        confirm = input("Вы уверены, что хотите удалить пост? (yes/no): ")
+
+        if confirm.lower() != 'yes':
+            self.stdout.write("Удаление отменено")
+            return
+
+        posts.first().delete()
+        self.stdout.write(
+            self.style.SUCCESS("Пост успешно удалён")
+        )

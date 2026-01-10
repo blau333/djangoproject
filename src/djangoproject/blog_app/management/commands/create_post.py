@@ -1,31 +1,28 @@
-from django.contrib.auth.models import User
-from django.core.management import BaseCommand, CommandError
-from django.utils.text import slugify
-import time
-from django_project.blog_app.models import Post
+from django.core.management.base import BaseCommand
+from djangoproject.blog_app.models import Post
+
+
 class Command(BaseCommand):
-    help = 'Создаёт новую статью'
-    def add_arguments(self, parser):
-        parser.add_argument('title', type=str, help='Название статьи', nargs='?')
-        parser.add_argument('content', type=str, help='Содержание поста', nargs='?')
+    help = 'Создание поста в интерактивном режиме'
+
     def handle(self, *args, **options):
-        title = options['title'] or input("Введите название статьи: ")
-        content = options['content'] or input("Введите текст статьи: ")
-        author = User.objects.first()
-        if not author:
-            raise CommandError("Сначала создайте пользователя!")
-        slug = slugify(title)
-        if not slug:
-            slug = f"post-{int(time.time())}"
-        if Post.objects.filter(slug=slug).exists():
-            slug = f"{slug}-{int(time.time())}"
-        try:
-            post = Post.objects.create(
-                title=title,
-                content=content,
-                author=author,
-                slug=slug
+        title = input("Введите заголовок: ").strip()
+        content = input("Введите текст поста: ").strip()
+
+        if not title or not content:
+            self.stdout.write(
+                self.style.ERROR("Заголовок и текст не могут быть пустыми")
             )
-            self.stdout.write(self.style.SUCCESS(f'Пост "{post.title}" успешно создан'))
-        except Exception as e:
-            raise CommandError(f'Ошибка при создании поста: {e}')
+            return
+
+        if Post.objects.filter(title=title).exists():
+            self.stdout.write(
+                self.style.WARNING("Пост с таким заголовком уже существует")
+            )
+            return
+
+        post = Post.objects.create(title=title, content=content)
+
+        self.stdout.write(
+            self.style.SUCCESS(f"Пост успешно создан → ID {post.id}")
+        )
