@@ -19,6 +19,8 @@ class Post(models.Model):
     slug = models.SlugField(unique=True)
     content = models.TextField(verbose_name='Содержание')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
+    categoty = models.ForeignKey('Category', on_delete=models.CASCADE)
+
 
     category = models.ForeignKey(
         Category,
