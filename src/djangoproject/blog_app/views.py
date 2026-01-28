@@ -1,10 +1,8 @@
-from djangoproject.blog_app.models import context
-from djangoproject.blog_app.models import HttpResponse
-from djangoproject.blog_app.models import Post
-from djangoproject.blog_app.models import Category 
-from djangoproject.blog_app.models import get_object_or_404
-from djangoproject.blog_app.models import render
-
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from djangoproject.blog_app.models import Post, Category
+from django.shortcuts import render
+from django.shortcuts import context
 
 def index(request):
     posts = Post.objects.filter(published=True).order_by("-created_at")[:5]
