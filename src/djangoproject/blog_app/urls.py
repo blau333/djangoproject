@@ -1,6 +1,5 @@
 from django.urls import path
 from djangoproject.blog_app import views
-from djangoproject.blog_app.models import Category
 
 app_name = "blog"
 urlpatterns = [

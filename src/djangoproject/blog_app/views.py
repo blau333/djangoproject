@@ -1,9 +1,9 @@
-from multiprocessing import context
-from django.http import HttpResponse
+from djangoproject.blog_app.models import context
+from djangoproject.blog_app.models import HttpResponse
 from djangoproject.blog_app.models import Post
-from .models import Category 
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
+from djangoproject.blog_app.models import Category 
+from djangoproject.blog_app.models import get_object_or_404
+from djangoproject.blog_app.models import render
 
 
 def index(request):

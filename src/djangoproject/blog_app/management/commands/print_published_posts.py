@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from django_project.blog_app.models import Post
+from djangoproject.blog_app.models import Post
 
 class Command(BaseCommand):
     help = 'Выводит список опубликованных постов'

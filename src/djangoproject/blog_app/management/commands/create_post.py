@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from djangoproject.blog_app.models import Post
 
 
+
 class Command(BaseCommand):
     help = 'Создание поста в интерактивном режиме'
 
