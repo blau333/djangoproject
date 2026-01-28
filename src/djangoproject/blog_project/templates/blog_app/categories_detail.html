@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Категория: {{ category.title }}{% endblock %}
+{% block content %}
+    <h1>Категория: {{ category.title }}</h1>
+    <ul>
+        {% for post in posts %}
+            <li><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="mt-4">
+        <a class="--bs-danger-bg-subtle" href="{% url "blog:categories_list" %}">Назад>>/a>
+        <a class="--bs-danger-bg-subtle" href="{% url "blog:index" %}">На главную страницу>>/a>
+    </div>
+{% endblock %}
