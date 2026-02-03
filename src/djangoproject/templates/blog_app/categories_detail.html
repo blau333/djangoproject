@@ -1,14 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Категория: {{ category.title }}{% endblock %}
+
+{% block title %}
+Категория: {{ category.title }}
+{% endblock %}
+
 {% block content %}
-    <h1>Категория: {{ category.title }}</h1>
+<h1>Категория: {{ category.title }}</h1>
+
+{% if posts %}
     <ul>
         {% for post in posts %}
-            <li><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></li>
+            <li>
+                <a href="{% url 'blog:post_detail' post.slug %}">
+                    {{ post.title }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
-    <div class="mt-4">
-     <a class="bs-danger-bg-subtle" href="{% url 'blog:categories_list' %}">Назад>></a>
-     <a class="bs-danger-bg-subtle" href="{% url 'blog:index' %}">На главную страницу>></a>
-    </div>
+{% else %}
+    <p>В этой категории пока нет статей.</p>
+{% endif %}
+
+<div class="mt-4">
+    <a class="btn btn-outline-danger" href="{% url 'blog:categories_list' %}">
+         К категориям
+    </a>
+    <a class="btn btn-outline-primary" href="{% url 'blog:index' %}">
+        На главную>>
+    </a>
+</div>
 {% endblock %}

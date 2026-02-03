@@ -1,22 +1,31 @@
 {% extends "base.html" %}
-{% block title %}{{post.title}} - {{block.super}}{% endblock %}
+
+{% block title %}
+{{ post.title }} — {{ block.super }}
+{% endblock %}
 
 {% block content %}
 <article>
-    <h1>{{post.title}}</h1>
+    <h1>{{ post.title }}</h1>
+
     <p class="text-muted">
-        Опубликовано: {{post.areated_at|date:"d.m.Y H:i"}}<br>
-        Автор: {{post.author}}
+        Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}<br>
+        Автор: {{ post.author.username }}
     </p>
+
     <hr>
-    <div class="post-content"></div>
-        {{post.content|linebreaksbr}}
+
+    <div class="post-content">
+        {{ post.content|linebreaksbr }}
+    </div>
 </article>
 
 <div class="mt-4">
-    <a class="btn btn-outline-secondary" href="{% url "blog:post_list" %}">К списку статей>></a>
-    <a class="btn btn-outline-secondary" href="{% url "blog:categories_list" %}">К списку категорий>></a>
+    <a class="btn btn-outline-secondary" href="{% url 'blog:post_list' %}">
+        К списку статей >>
+    </a>
+    <a class="btn btn-outline-secondary" href="{% url 'blog:categories_list' %}">
+        К списку категорий >>
+    </a>
 </div>
-
 {% endblock %}
-

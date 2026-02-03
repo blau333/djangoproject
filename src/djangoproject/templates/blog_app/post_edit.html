@@ -1,10 +1,7 @@
 {% extends "base.html" %}
-
-{% block title %}Добавление категории{% endblock %}
-
+{% block title %}Редактировать статью{% endblock %}
 {% block content %}
-<h1>Создать категорию</h1>
-
+<h1>Редактировать статью</h1>
 <form method="post">
     {% csrf_token %}
 
@@ -19,7 +16,7 @@
     {{ form.as_p }}
 
     <button type="submit" class="btn btn-primary mt-3">
-        Создать
+        Сохранить
     </button>
 </form>
 {% endblock %}

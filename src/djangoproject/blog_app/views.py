@@ -1,7 +1,8 @@
 from multiprocessing import context
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from djangoproject.blog_app.forms import PostForm
+from django.urls import reverse
+from djangoproject.blog_app.forms import CategoryForm, PostForm
 from djangoproject.blog_app.models import Post, Category
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
@@ -74,3 +75,39 @@ def post_create(request):
         "form": form
     }
     return render(request, "blog_app/create_post.html", context=context)
+
+def category_create(request):
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+           form.save()
+           return redirect("blog:categories_list")
+    else:
+        form = CategoryForm()
+
+    context = {
+        "form": form
+    }
+    return render(request, "blog_app/create_category.html", context=context)
+
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+
+        if form.is_valid():
+            edited_post = form.save(commit=False)
+            edited_post.slug = slugify(edited_post.title)
+            edited_post.save()
+
+            return redirect("blog:post_detail", edited_post.slug)
+    else:
+        form = PostForm(instance=post)
+
+    context = {
+        "form": form,
+        "post": post
+    }
+    return render(request, "blog_app/edit_post.html", context=context)
