@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Обо  мне{% endblock %}
+
+{% block content %}
+<article>
+    <h1>Пользователь: {{user_detail.user}}</h1>
+    <br>
+    {%if user_detail.avatar %}
+    <img src="{{ user_detail.avatar.url }}" alt="Автатар {{user_detail.user}}" class="rounded-circle mb-3" width="150px" height="150px">
+    {% endif %}
+    <div class="post-content">
+    <h3>Коротко о себе:</h3>
+    </div>
+    <div class="post-content">
+        <h4>{{user_detail.bio}}</h4>
+    </div>
+    <br>
+        <h3>Домашний сайт:</h3>
+        <h4>{{user_detail.social_link}}</h4>
+</article>
+
+<div class="mt-4">
+   <a class="btn btn-outline-secondary" href="{% url "users:update_page" %}">Изменить профиль</a>
+</div>
+
+{% endblock %}
